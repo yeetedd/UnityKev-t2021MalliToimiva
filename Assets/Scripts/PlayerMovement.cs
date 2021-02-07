@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 8f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
+    float raycastDistance = 1f;
+
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -28,12 +30,35 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    private void FixedUpdate()
+    {
+            //10000000
+       
+            // Bit shift the index of the layer (8) groud to get a bit mask
+            int layerMask = 1 << 8;
+
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(groundCheck.position, groundCheck.TransformDirection(Vector3.down), out hit, raycastDistance, layerMask))
+            {
+                //Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector3.down) * raycastDistance, Color.yellow);
+                isGrounded = true;
+            }
+            else
+            {
+                //Debug.DrawRay(groundCheck.position, groundCheck.TransformDirection(Vector3.down) * raycastDistance, Color.white);
+                isGrounded = false;
+            }
+       
+    }
+
     // Update is called once per frame
     void Update()
     {
         
         //katsotaan koskeeko maata
-        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+       
+
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2;
@@ -56,19 +81,10 @@ public class PlayerMovement : MonoBehaviour
             
         }
         velocity.y += gravity * Time.deltaTime;
-        
+
         //putoaminen
         controller.Move(velocity * Time.deltaTime);
        
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        isGrounded = true;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        isGrounded = false;
-    }
+   
 }

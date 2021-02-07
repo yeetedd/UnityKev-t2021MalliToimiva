@@ -33,8 +33,6 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
 
-
-
         //kääntää hiirtä
         //delta time laskee kuinka kauna yhteen ruutuun menee
         mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
