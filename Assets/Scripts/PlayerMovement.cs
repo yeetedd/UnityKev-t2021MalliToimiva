@@ -10,9 +10,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject camera;
 
     public float speed = 8f;
+    public float runSpeed = 1.8f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
     float raycastDistance = 1f;
+
+
 
 
     public Transform groundCheck;
@@ -70,8 +73,19 @@ public class PlayerMovement : MonoBehaviour
 
         move = camera.transform.right * x + camera.transform.forward * z;
 
+        /*
         //kerrotaan etta on liikuttava
         controller.Move(move * speed * Time.deltaTime);
+        */
+
+        if (Input.GetButton("Run"))
+        {
+            controller.Move(move * speed * runSpeed * Time.deltaTime);
+        }
+        else
+        {
+            controller.Move(move * speed * Time.deltaTime);
+        }
 
         //hypyn koodi
         if (Input.GetButtonDown("Jump") && isGrounded)
