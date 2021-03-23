@@ -13,13 +13,14 @@ public class DoorController : MonoBehaviour
     public float moveSpeed = 1f;
     private Vector3 startPoint;
     private bool isMoving = false;
-
+    private Vector3 endPoint;
 
 
     // Start is called before the first frame update
     void Start()
     {
         startPoint = transform.position;
+        endPoint = endMarker.position;
     }
 
     // Update is called once per frame
@@ -30,11 +31,11 @@ public class DoorController : MonoBehaviour
             switch (state)
             {
                 case DoorState.Close:
-                    if (transform.position.y != startPoint.y)
+                    if (transform.position.y < startPoint.y)
                     {
                         transform.position = Vector3.Lerp(transform.position, startPoint, moveSpeed * Time.deltaTime);
                         //Liikuttaa ajan kanssa x pisteesta y pisteeseen, ei vaadi rigidbodia, miten toimii rigidbodyn kanssa?
-
+                        //Debug.Log("is opening");
                     }
                     else
                     {
@@ -44,14 +45,18 @@ public class DoorController : MonoBehaviour
                     break;
 
                 case DoorState.Open:
-                    if (transform.position.y != endMarker.position.y)
+                    //Debug.Log("wants to go down");
+                    if (transform.position.y < endMarker.position.y)
                     {
-                        transform.position = Vector3.Lerp(transform.position, endMarker.position, moveSpeed * Time.deltaTime);
+                        //transform.position = Vector3.Lerp(transform.position, endMarker.position, moveSpeed * Time.deltaTime);
+                        //Debug.Log("is movingdown");
+                        transform.position = Vector3.Lerp(transform.position, endPoint, moveSpeed * Time.deltaTime);
                     }
                     else
                     {
                         isMoving = false;
                         state = DoorState.Open;
+                        //Debug.Log("stoped moving down");
                     }
                     break;
             }
