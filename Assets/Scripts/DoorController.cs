@@ -31,7 +31,9 @@ public class DoorController : MonoBehaviour
             switch (state)
             {
                 case DoorState.Close:
-                    if (transform.position.y < startPoint.y)
+                    //note for huni: mistake was here, the lower something is, the small y position is
+                    //i just changed < to > in function below, mle, u r my cute coder
+                    if (transform.position.y > startPoint.y)
                     {
                         transform.position = Vector3.Lerp(transform.position, startPoint, moveSpeed * Time.deltaTime);
                         //Liikuttaa ajan kanssa x pisteesta y pisteeseen, ei vaadi rigidbodia, miten toimii rigidbodyn kanssa?
@@ -45,6 +47,7 @@ public class DoorController : MonoBehaviour
                     break;
 
                 case DoorState.Open:
+
                     //Debug.Log("wants to go down");
                     if (transform.position.y < endMarker.position.y)
                     {

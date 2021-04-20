@@ -7,7 +7,7 @@ public class DoorTrigger : MonoBehaviour
 {
 
     public enum TriggerState {Open, Close};
-    public TriggerState state = TriggerState.Open;
+    public TriggerState state;
 
     public DoorController door;
 
@@ -22,6 +22,7 @@ public class DoorTrigger : MonoBehaviour
         if(state == TriggerState.Close)
         {
             door.CloseDoor();
+
         }
     }
 
